@@ -1,0 +1,200 @@
+#chat-screen {
+  background-color: #abc1d1;
+  height: 500vh;
+}
+#chat-screen .alt-header,
+#chat-screen .status-bar {
+  background-color: #abc1d1;
+  top: 0;
+  position: fixed;
+  /* position이 fixed일 때는 width를 항상 고려 */
+  width: 100%;
+  box-sizing: border-box;
+}
+/* z-index:absolute position이나 fixed position에 대해 순서를 설정할 수 있다.*/
+#chat-screen .status-bar {
+  z-index: 2;
+}
+#chat-screen .alt-header {
+  top: 10px;
+  z-index: 1;
+}
+/* flex가 되면서 cat__timestamp의 모양이 바뀐다..?? */
+@keyframes fadeIn {
+  from {
+    transform: translateY(30px);
+    opacity: 0;
+  }
+  to {
+    transform: none;
+    opacity: 1;
+  }
+}
+
+.main-chat {
+  margin-top: 120px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  animation: fadeIn 1s linear;
+}
+.chat__timestamp {
+  color: white;
+  background-color: rgba(0, 0, 0, 0.2);
+  padding: 15px 15px;
+  border-radius: 25px;
+  font-size: 14px;
+  margin-bottom: 25px;
+}
+.message-row {
+  display: flex;
+  /* width 100%인 것 중요! */
+  width: 100%;
+  justify-content: start;
+  margin-bottom: 25px;
+}
+.message-row img {
+  height: 50px;
+  width: 50px;
+  border-radius: 20px;
+  margin-right: 10px;
+}
+.message__author {
+  margin-bottom: 5px;
+  /* block이 아니면 margin-bottom이 적용되지 않는다. */
+  display: block;
+}
+.message__bubble {
+  background-color: white;
+  padding: 10px;
+  border-radius: 10px;
+  border-top-left-radius: 0px;
+  margin-right: 5px;
+  font-size: 17px;
+}
+.message__info {
+  /* 다시 살펴볼 부분 */
+  display: flex;
+  align-items: end;
+}
+.message__time,
+.message__author {
+  opacity: 0.8;
+  font-size: 14px;
+}
+/* felx-end와 end의 차이..? */
+.message-row--own {
+  justify-content: flex-end;
+}
+.message-row--own .message__bubble {
+  background-color: var(--yellow);
+  border-top-right-radius: 0;
+  border-top-left-radius: 15px;
+  margin-right: 0px;
+  margin-left: 5px;
+}
+/* display 방식을 바꾼다. 이런 정렬 방식은 오직! flex에만 적용된다.*/
+/* .message-row--own .message__time { */
+/* order: 0; */
+/* } */
+/* .message-row--own .message__bubble { */
+/* order: 1; */
+/* } */
+/* message info가 flex container라는 것 기억하기 */
+.message-row--own .message__info {
+  flex-direction: row-reverse;
+}
+.reply {
+  position: fixed;
+  display: flex;
+  bottom: 0;
+  width: 100%;
+  background-color: white;
+  justify-content: space-between;
+  padding: 5px 25px;
+  align-items: center;
+  /* padding이 요소들을 가리기 때문에 */
+  box-sizing: border-box;
+  transition: transform 0.3s ease-in-out;
+}
+/* width를 설정하여  div에 크기를 부여할 수 있다. */
+.reply .reply__column:first-child {
+  width: 10%;
+}
+.reply .reply__column:last-child {
+  width: 90%;
+  position: relative;
+}
+.reply input {
+  padding: 11px 10px;
+  width: 100%;
+  border: var(--main-border);
+  border-radius: 20px;
+  transition: all 0.3s ease-in-out;
+}
+/* direct children만 선택한다. */
+.reply__column:last-child > i,
+.reply__column:last-child button {
+  position: absolute;
+  right: -3px;
+  top: 2px;
+}
+.reply__column:last-child > i {
+  right: 40px;
+  top: 15px;
+}
+.reply__column button {
+  background-color: var(--yellow);
+  border: none;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+}
+.reply__column button:focus,
+.reply__column button:active {
+  outline: none;
+}
+.reply i {
+  opacity: 0.5;
+}
+.reply__column button i {
+  opacity: 1;
+}
+/* reply 내부의 어떤 요소가 focus 된다면,,, */
+.reply:focus-within .reply__column:first-child,
+.reply:focus-within .fa-face-grin-hearts,
+.reply:focus-within button {
+  opacity: 0;
+}
+
+.reply .reply__column:first-child,
+.reply .fa-face-grin-hearts,
+.reply button {
+  transition: opacity 0.3s ease-in-out;
+}
+/* reply input이 transition을 가졌기 때문에 잘 작동된다. */
+.reply input:focus {
+  width: 90vw;
+  transform: translateX(-12%) translateY(-80px);
+}
+.message-row {
+  transform: translateX(-100px);
+  animation: slide 0.5s ease-in-out forwards;
+}
+.message-row--own {
+  transform: translate(180px);
+  animation: slide 1s ease-in-out forwards;
+  animation-delay: 0.5s;
+}
+@keyframes slide {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.reply:focus-within {
+  transform: translateY(80px);
+}
